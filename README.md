@@ -202,3 +202,51 @@ If you encounter issues not covered in this guide:
 2. Verify your Google Workspace admin console settings
 3. Review the Rails application logs for detailed error messages
 4. Ensure all prerequisites are properly configured
+
+## Google Cloud Resources Created
+
+The following resources were created during the setup process. **Keep track of these for cleanup later:**
+
+### Google Cloud Console Resources
+
+1. **Google Cloud Project**
+   - **Name**: `test-groups-api-474204` (or your custom project name)
+   - **Location**: [Google Cloud Console](https://console.cloud.google.com/)
+   - **To Delete**: Go to "IAM & Admin" → "Settings" → "Delete Project"
+
+2. **Admin SDK API**
+   - **Service**: Admin SDK API
+   - **Location**: APIs & Services → Library → Admin SDK API
+   - **Status**: Enabled
+   - **To Disable**: Go to APIs & Services → Enabled APIs → Admin SDK API → Disable
+
+3. **Service Account**
+   - **Name**: `google-groups-reader`
+   - **Email**: `google-groups-reader@test-groups-api-474204.iam.gserviceaccount.com`
+   - **Location**: IAM & Admin → Service Accounts
+   - **To Delete**: Go to IAM & Admin → Service Accounts → Select account → Delete
+
+4. **Service Account Key**
+   - **Type**: JSON key file
+   - **Status**: Downloaded and stored in Rails credentials
+   - **To Delete**: Go to Service Account → Keys tab → Delete key
+   - **Note**: The original JSON file should be deleted from your local machine
+
+### Google Workspace Admin Console Settings
+
+1. **Domain-wide Delegation API Client**
+   - **Client ID**: (Found in service account details)
+   - **OAuth Scopes**: `https://www.googleapis.com/auth/admin.directory.group.readonly`
+   - **Location**: [Google Admin Console](https://admin.google.com/) → Security → API Controls → Domain-wide Delegation
+   - **To Delete**: Go to Security → API Controls → Domain-wide Delegation → Remove the client
+
+### Cleanup Checklist
+
+When you no longer need this integration, delete the following resources:
+
+- [ ] **Google Cloud Project** (deletes everything under it)
+- [ ] **Domain-wide Delegation API Client** (from Google Admin Console)
+- [ ] **Service Account JSON key file** (from your local machine)
+- [ ] **Rails encrypted credentials** (remove Google service account section)
+
+**Note**: Deleting the Google Cloud Project will automatically remove the service account and API settings.
